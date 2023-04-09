@@ -2,7 +2,7 @@ package com.gorgaz.gazmyas.utils;
 
 import java.util.UUID;
 
-public class ChatMessageUtil {
+public class ChatUtil {
 
 	public static boolean isValidUUID (String str) {
 		try {

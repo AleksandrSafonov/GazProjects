@@ -2,7 +2,7 @@ package com.gorgaz.gazmyas.controller;
 
 import com.gorgaz.gazmyas.gererated.model.ChatMessageRq;
 import com.gorgaz.gazmyas.service.IChatMessageService;
-import com.gorgaz.gazmyas.utils.ChatMessageUtil;
+import com.gorgaz.gazmyas.utils.ChatUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Slf4j
@@ -38,7 +37,7 @@ public class ChatMessageController {
 	public ResponseEntity<ChatMessageRq> getChatMessage(@RequestParam String messageId) {
 		log.info("getChatMessage started");
 
-		if (!ChatMessageUtil.isValidUUID(messageId)) {
+		if (!ChatUtil.isValidUUID(messageId)) {
 			log.info("getChatMessage: Не валидный messageId");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -67,6 +66,18 @@ public class ChatMessageController {
 		}
 		try {
 			chatMessageService.removeMessage(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			log.error("Ошибка удаления сообщения: ", e);
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
+
+	@PostMapping(value = "/removeAllChatMessages")
+	public ResponseEntity<Void> removeAllChatMessages() {
+		log.info("removeAllChatMessages started");
+		try {
+			chatMessageService.removeAllChatMessage();
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("Ошибка удаления сообщения: ", e);

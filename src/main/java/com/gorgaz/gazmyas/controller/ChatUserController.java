@@ -1,8 +1,8 @@
 package com.gorgaz.gazmyas.controller;
 
-import com.gorgaz.gazmyas.gererated.model.ChatMessageRq;
-import com.gorgaz.gazmyas.service.IChatMessageService;
-import com.gorgaz.gazmyas.utils.ChatMessageUtil;
+import com.gorgaz.gazmyas.gererated.model.ChatUserRq;
+import com.gorgaz.gazmyas.service.IChatUserService;
+import com.gorgaz.gazmyas.utils.ChatUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,62 +10,67 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class ChatUserController {
 
-	private final IChatMessageService chatMessageService;
+	private final IChatUserService chatUserService;
 
-	@GetMapping("/getChatMessages")
-	public ResponseEntity<List<ChatMessageRq>> getChatMessages() {
-		log.info("getChatMessages started");
-		return ResponseEntity.ok(chatMessageService.getMessages());
+	@GetMapping("/getChatUsers")
+	public ResponseEntity<List<ChatUserRq>> getChatUsers(@RequestParam boolean onlyActive) {
+		log.info("getChatUsers started");
+		return ResponseEntity.ok(chatUserService.getUsers(onlyActive));
 	}
 
-	@GetMapping("/getChatMessagesAfterDate")
-	public ResponseEntity<List<ChatMessageRq>> getChatMessagesAfterDate(@RequestParam LocalDateTime dateStart) {
-		log.info("getChatMessagesAfterDate started");
-		return ResponseEntity.ok(chatMessageService.getMessagesAfterDate(dateStart));
-	}
+	@GetMapping("/getChatUser")
+	public ResponseEntity<ChatUserRq> getChatUser(@RequestParam String userId) {
+		log.info("getChatUser started");
 
-	@GetMapping("/getChatMessage")
-	public ResponseEntity<ChatMessageRq> getChatMessage(@RequestParam String messageId) {
-		log.info("getChatMessage started");
-
-		if (!ChatMessageUtil.isValidUUID(messageId)) {
-			log.info("getChatMessage: Не валидный messageId");
+		if (!ChatUtil.isValidUUID(userId)) {
+			log.info("getChatUser: Не валидный userId");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return ResponseEntity.ok(chatMessageService.getMessage(messageId));
+		return ResponseEntity.ok(chatUserService.getUser(userId));
 	}
 
-	@PostMapping(value = "/addChatMessage", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> addChatMessage(@RequestBody final ChatMessageRq rq) {
-		log.info("addChatMessage started");
+	@PostMapping(value = "/addChatUser", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> addChatUser(@RequestBody final ChatUserRq rq) {
+		log.info("addChatUser started");
 		try {
-			String chatMessageId = chatMessageService.saveMessage(rq);
+			String chatMessageId = chatUserService.saveUser(rq);
 			return ResponseEntity.ok(chatMessageId);
 		} catch (Exception e) {
-			log.error("Ошибка добавления сообщения: ", e);
+			log.error("Ошибка добавления участника чата: ", e);
 			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
 
-	@PostMapping(value = "/removeChatMessage")
-	public ResponseEntity<Void> removeChatMessage(@RequestBody String id) {
-		log.info("removeChatMessage started");
-		if (!chatMessageService.existById(id)) {
+	@PostMapping(value = "/removeChatUser")
+	public ResponseEntity<Void> removeChatUser(@RequestBody String id) {
+		log.info("removeChatUser started");
+		if (!chatUserService.existById(id)) {
 			log.info("Попытка удаления несуществующего сообщения");
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		try {
-			chatMessageService.removeMessage(id);
+			chatUserService.removeUser(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			log.error("Ошибка удаления сообщения: ", e);
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
+
+	@PostMapping(value = "/removeAllChatUsers")
+	public ResponseEntity<Void> removeAllChatUsers() {
+		log.info("removeAllChatUsers started");
+		try {
+			chatUserService.removeAllUser();
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("Ошибка удаления сообщения: ", e);

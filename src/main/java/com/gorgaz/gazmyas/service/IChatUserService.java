@@ -17,4 +17,6 @@ public interface IChatUserService {
 
 	void removeUser(String id);
 
+	void removeAllUser();
+
 }

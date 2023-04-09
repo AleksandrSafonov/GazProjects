@@ -54,4 +54,8 @@ public class ChatMessageService implements IChatMessageService {
 		chatMessageRepository.remove(id);
 	}
 
+	public void removeAllChatMessage() {
+		chatMessageRepository.clear();
+	}
+
 }

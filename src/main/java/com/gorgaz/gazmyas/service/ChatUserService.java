@@ -44,4 +44,8 @@ public class ChatUserService implements IChatUserService {
 		chatUserRepository.remove(id);
 	}
 
+	public void removeAllUser() {
+		chatUserRepository.clear();
+	}
+
 }

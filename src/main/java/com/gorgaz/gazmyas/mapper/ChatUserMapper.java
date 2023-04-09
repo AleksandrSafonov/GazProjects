@@ -23,7 +23,7 @@ public class ChatUserMapper {
             return null;
         }
         ChatUser chatUser = new ChatUser(rq.getName());
-        if (rq.getActive() != null || rq.getActive()) {
+        if (rq.getActive() != null && rq.getActive()) {
             chatUser.setActive(true);
         }
         if (rq.getId() != null) {

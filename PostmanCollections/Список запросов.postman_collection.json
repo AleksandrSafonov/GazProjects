@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "2b42b52a-fb52-497f-a1b3-9e88732e6c11",
+		"name": "Список запросов",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11236295"
+	},
+	"item": [
+		{
+			"name": "Сообщения. Получить все",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/message/getChatMessages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"message",
+						"getChatMessages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Сообщения. Получить 1 по ид",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/message/getChatMessage?messageId=ytuyutyuyt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"message",
+						"getChatMessage"
+					],
+					"query": [
+						{
+							"key": "messageId",
+							"value": "ytuyutyuyt"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Сообщения. Получить все не ранее даты",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Сообщения. Отправить",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"931ec463-ab0d-451a-8a35-442cc71976f4\",\r\n    \"userId\": \"85c48b2d-3de5-463e-9709-ae468f3c328f\",\r\n    \"dateTime\": \"2023-04-08T22:35:10.036572Z\",\r\n    \"text\": \"Всем привет!!!!!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/message/addChatMessage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"message",
+						"addChatMessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Сообщения. Удалить",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/message/removeChatMessage?id=931ec463-ab0d-451a-8a35-442cc71976f4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"message",
+						"removeChatMessage"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "931ec463-ab0d-451a-8a35-442cc71976f4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Сообщения. Удалить все",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/message/removeAllChatMessages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"message",
+						"removeAllChatMessages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Пользователи. Получить всех",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/getChatUsers?onlyActive=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"getChatUsers"
+					],
+					"query": [
+						{
+							"key": "onlyActive",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Пользователи. Получить 1 по ид",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/getChatUser?userId=85c48b2d-3de5-463e-9709-ae468f3c328f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"getChatUser"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "85c48b2d-3de5-463e-9709-ae468f3c328f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Пользователи. Добавить",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"c008b92a-9520-499d-a66c-3ea87471a534\",\r\n    \"name\": \"Петрович2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/addChatUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"addChatUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Пользователи. Удалить",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/removeChatUser?id=931ec463-ab0d-451a-8a35-442cc71976f4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"removeChatUser"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "931ec463-ab0d-451a-8a35-442cc71976f4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Пользователи. Удалить все",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/removeAllChatUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"removeAllChatUsers"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

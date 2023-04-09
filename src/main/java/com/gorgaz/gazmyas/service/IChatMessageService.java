@@ -20,4 +20,6 @@ public interface IChatMessageService {
 
 	void removeMessage(String id);
 
+	void removeAllChatMessage();
+
 }
