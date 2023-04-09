@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: Чат - OpenAPI 3.0
+  description: |-
+  contact:
+    email: safonoval@ya.ru
+  version: 1.0.1
+servers:
+  - url: https://localhost
+tags:
+  - name: chatMessage
+    description: Операции с сообщениями
+  - name: chatUser
+    description: Операции с пользователями
+paths:
+  /message/getChatMessage/{messageId}:
+    get:
+      tags:
+        - chatMessage
+      summary: Find chatMessage by ID
+      description: Returns a single chatMessage
+      operationId: getChatMessage
+      parameters:
+        - name: messageId
+          in: path
+          description: ID of chatMessage to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatMessageRq'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ChatMessageRq'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: chatMessage not found
+  /message/getChatMessages:
+    get:
+      tags:
+        - chatMessage
+      summary: Finds ChatMessages
+      description: Получить все сообщения
+      operationId: getChatMessages
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatMessageRq'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatMessageRq'
+        '400':
+          description: Invalid status value
+  /message/getChatMessagesAfterDate/{datestart}:
+    get:
+      tags:
+        - chatMessage
+      summary: Finds ChatMessages
+      description: Получить все сообщения
+      operationId: getChatMessagesAfterDate
+      parameters:
+        - name: datestart
+          in: path
+          description: ID of chatMessage to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatMessageRq'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatMessageRq'
+        '400':
+          description: Invalid status value
+components:
+  schemas:
+    ChatMessageRq:
+      type: object
+      required: [id, userId, dateTime]
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: '3edb44ee-4d6e-4194-a61d-7f7d6caf48d3'
+        userId:
+          type: string
+          format: uuid
+          example: '456744ee-4d6e-4194-a61d-7f7d6caf9876'
+        dateTime:
+          type: string
+          format: date-time
+        text:
+          type: string
+          example: 'Всем привет!'
+      xml:
+        name: сhatMessage
+    ChatUserRq:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: '080944ee-4d6e-4194-a61d-7f7d6caf3215'
+        name:
+          type: string
+          description: Никнейм
+          example: Дядя Ваня
+        active:
+          type: boolean
+      xml:
+        name: сhatUser
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    ChatMessage:
+      description: ChatMessage object that needs to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChatMessageRq'
