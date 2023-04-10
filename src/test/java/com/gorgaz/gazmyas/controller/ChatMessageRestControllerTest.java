@@ -70,7 +70,7 @@ public class ChatMessageRestControllerTest
 		when(chatMessageService.saveMessage(any(ChatMessageRq.class))).thenThrow(NullPointerException.class);
 
 		ResponseEntity<String> responseEntity = controller.addChatMessage(chatMessageRq);
-		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@Test
@@ -92,23 +92,23 @@ public class ChatMessageRestControllerTest
 
 		ResponseEntity<Void> responseEntity = controller.removeChatMessage(MESSAGE_ID);
 
-		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@Test
 	public void removeChatMessage_not_found()
 	{
-		when(chatMessageService.existById(anyString())).thenReturn(false);
 
 		ResponseEntity<Void> responseEntity = controller.removeChatMessage(MESSAGE_ID);
 
-		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
 
 	@Test
 	public void getChatMessage_success()
 	{
 		when(chatMessageService.getMessage(anyString())).thenReturn(chatMessageRq);
+		when(chatMessageService.existById(anyString())).thenReturn(true);
 
 		ResponseEntity<ChatMessageRq> responseEntity = controller.getChatMessage(MESSAGE_ID);
 
@@ -128,12 +128,9 @@ public class ChatMessageRestControllerTest
 	@Test
 	public void getChatMessage_noFound()
 	{
-		when(chatMessageService.getMessage(anyString())).thenReturn(null);
-
 		ResponseEntity<ChatMessageRq> responseEntity = controller.getChatMessage(MESSAGE_ID);
 
-		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(responseEntity.getBody()).isNull();
+		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
 
 	@Test

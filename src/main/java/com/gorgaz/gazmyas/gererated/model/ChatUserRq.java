@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * ChatUserRq
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-04-09T13:48:45.568470500+03:00[Europe/Moscow]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-04-09T23:37:21.372668100+03:00[Europe/Moscow]")
 public class ChatUserRq {
 
   private UUID id;

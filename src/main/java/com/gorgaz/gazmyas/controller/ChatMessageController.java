@@ -41,6 +41,10 @@ public class ChatMessageController {
 			log.info("getChatMessage: Не валидный messageId");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		if (!chatMessageService.existById(messageId)) {
+			log.info("Отсутствует сообщение");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
 		return ResponseEntity.ok(chatMessageService.getMessage(messageId));
 	}
@@ -53,7 +57,7 @@ public class ChatMessageController {
 			return ResponseEntity.ok(chatMessageId);
 		} catch (Exception e) {
 			log.error("Ошибка добавления сообщения: ", e);
-			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -62,14 +66,14 @@ public class ChatMessageController {
 		log.info("removeChatMessage started");
 		if (!chatMessageService.existById(id)) {
 			log.info("Попытка удаления несуществующего сообщения");
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		try {
 			chatMessageService.removeMessage(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			log.error("Ошибка удаления сообщения: ", e);
-			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
